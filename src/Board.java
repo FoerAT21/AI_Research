@@ -1,11 +1,10 @@
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Board {
 
-    private List<List<Boolean>> board;
+    private ArrayList<ArrayList<Boolean>> board;
     private final int numRows;
     private final int numColumns;
 
@@ -15,10 +14,10 @@ public class Board {
      * @param numColumns Number of rows for the new Board. Each column is a value in each row in the board variable
      */
     public Board(int numRows, int numColumns) {
-        List<List<Boolean>> board = new ArrayList<>();
+        ArrayList<ArrayList<Boolean>> board = new ArrayList<>();
 
         for (int i = 0; i < numRows; i++) {
-            List<Boolean> innerList = Collections.nCopies(numColumns, false);
+            ArrayList<Boolean> innerList = new ArrayList<>(Collections.nCopies(numColumns, false));
             board.add(innerList);
         }
 
@@ -27,13 +26,23 @@ public class Board {
         this.numColumns = numColumns;
     }
 
-    public void placePiece() throws NotImplementedException {
-        // @TODO: implement method
-        throw new NotImplementedException("Not yet implemented");
+    public void placePiece(OrderedPair[] orientation, OrderedPair startingPosition) throws IndexOutOfBoundsException {
+        for (OrderedPair pair : orientation) {
+            int x = pair.getX() + startingPosition.getX();
+            int y = pair.getY() + startingPosition.getY();
+            if (x >= numRows || y >= numColumns) {
+                throw new IndexOutOfBoundsException("Index out of bounds for Board");
+            }
+            updateSpot(x, y, true);
+        }
     }
 
-    private void updateSpot(int i, int j, boolean value) {
-        this.board.get(i).set(j, value);
+    public void updateSpot(int x, int y, boolean value) throws IndexOutOfBoundsException{
+        if (x >= numRows || y >= numColumns) {
+            throw new IndexOutOfBoundsException("Index out of bounds for Board");
+        }
+
+        this.board.get(x).set(y, value);
     }
 
     private int numEmptySpaces() {
