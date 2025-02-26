@@ -25,6 +25,14 @@ public class Board {
         this.numColumns = numColumns;
     }
 
+    public int getNumColumns() {
+        return numColumns;
+    }
+
+    public int getNumRows(){
+        return numColumns;
+    }
+
     /**
      * Place specific OrderedPair[] representing one orientation for a piece onto the board.
      * @param orientation OrderedPair[] representing the Piece and its' specific orientation
