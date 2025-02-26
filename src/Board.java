@@ -48,7 +48,7 @@ public class Board {
         }
     }
 
-    public void updateSpot(int x, int y, boolean value) throws IndexOutOfBoundsException{
+    private void updateSpot(int x, int y, boolean value) throws IndexOutOfBoundsException{
         if (x >= numRows || y >= numColumns) {
             throw new IndexOutOfBoundsException("Index out of bounds for Board");
         }
