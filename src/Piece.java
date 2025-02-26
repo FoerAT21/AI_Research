@@ -1,7 +1,7 @@
 public abstract class Piece {
-    protected OrderedPair[][] positions;
-    public abstract OrderedPair[][] generatePieceOrienations();
-    public OrderedPair[][] getPositions(){
+    protected OrderedPair[] positions;
+    public abstract OrderedPair[] generatePieceOrienations();
+    public OrderedPair[] getPositions(){
         return positions;
     }
 }
@@ -11,13 +11,13 @@ class O extends Piece{
         positions = generatePieceOrienations();
     }
     @Override
-    public OrderedPair[][] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrienations() {
         OrderedPair[] pos = new OrderedPair[4];
         pos[0] = new OrderedPair(0,0);
         pos[1] = new OrderedPair(0,1);
         pos[2] = new OrderedPair(1,0);
         pos[3] = new OrderedPair(1,1);
-        return new OrderedPair[][]{pos};
+        return pos;
     }
 }
 
@@ -26,22 +26,14 @@ class I extends Piece{
         positions = generatePieceOrienations();
     }
     @Override
-    public OrderedPair[][] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrienations() {
         OrderedPair[] pos1 = new OrderedPair[4];
-        OrderedPair[] pos2 = new OrderedPair[4];
         pos1[0] = new OrderedPair(0,0);
-        pos2[0] = new OrderedPair(0,0);
-
         pos1[1] = new OrderedPair(0,1);
-        pos2[1] = new OrderedPair(1,0);
-
         pos1[2] = new OrderedPair(0,2);
-        pos2[2] = new OrderedPair(2,0);
-
         pos1[3] = new OrderedPair(0,3);
-        pos2[3] = new OrderedPair(3,0);
 
-        return new OrderedPair[][]{pos1, pos2};
+        return pos1;
     }
 }
 
@@ -51,20 +43,13 @@ class S extends Piece{
     }
 
     @Override
-    public OrderedPair[][] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrienations() {
         OrderedPair[] pos1 = new OrderedPair[4];
         pos1[0] = new OrderedPair(0,1);
         pos1[1] = new OrderedPair(1,1);
         pos1[2] = new OrderedPair(1,0);
         pos1[3] = new OrderedPair(2,0);
-
-        OrderedPair[] pos2 = new OrderedPair[4];
-        pos2[0] = new OrderedPair(0,0);
-        pos2[1] = new OrderedPair(0,1);
-        pos2[2] = new OrderedPair(1,1);
-        pos2[3] = new OrderedPair(1,2);
-
-        return new OrderedPair[][]{pos1, pos2};
+        return pos1;
     }
 }
 
@@ -74,20 +59,15 @@ class Z extends Piece{
     }
 
     @Override
-    public OrderedPair[][] generatePieceOrienations() {
-        OrderedPair[] pos1 = new OrderedPair[4];
-        pos1[0] = new OrderedPair(0,0);
-        pos1[1] = new OrderedPair(1,0);
-        pos1[2] = new OrderedPair(1,1);
-        pos1[3] = new OrderedPair(2,1);
+    public OrderedPair[] generatePieceOrienations() {
+        OrderedPair[] positions = new OrderedPair[4];
+        positions[0] = new OrderedPair(0,0);
+        positions[1] = new OrderedPair(1,0);
+        positions[2] = new OrderedPair(1,1);
+        positions[3] = new OrderedPair(2,1);
 
-        OrderedPair[] pos2 = new OrderedPair[4];
-        pos2[0] = new OrderedPair(1,0);
-        pos2[1] = new OrderedPair(1,1);
-        pos2[2] = new OrderedPair(0,1);
-        pos2[3] = new OrderedPair(0,2);
 
-        return new OrderedPair[][]{pos1, pos2};
+        return positions;
     }
 }
 
@@ -97,7 +77,7 @@ class L extends Piece{
     }
 
     @Override
-    public OrderedPair[][] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrienations() {
         // Normal L
         OrderedPair[] pos1 = new OrderedPair[4];
         pos1[0] = new OrderedPair(0,0);
@@ -105,28 +85,7 @@ class L extends Piece{
         pos1[2] = new OrderedPair(0,2);
         pos1[3] = new OrderedPair(1,2);
 
-        // Rotated 90 degrees
-        OrderedPair[] pos2 = new OrderedPair[4];
-        pos2[0] = new OrderedPair(0,0);
-        pos2[1] = new OrderedPair(1,0);
-        pos2[2] = new OrderedPair(2,0);
-        pos2[3] = new OrderedPair(0,1);
-
-        // Rotate 180 degrees
-        OrderedPair[] pos3 = new OrderedPair[4];
-        pos3[0] = new OrderedPair(0,0);
-        pos3[1] = new OrderedPair(1,0);
-        pos3[2] = new OrderedPair(1,1);
-        pos3[3] = new OrderedPair(1,2);
-
-        // Rotate 270
-        OrderedPair[] pos4 = new OrderedPair[4];
-        pos3[0] = new OrderedPair(0,1);
-        pos3[1] = new OrderedPair(1,1);
-        pos3[2] = new OrderedPair(2,1);
-        pos3[3] = new OrderedPair(2,0);
-
-        return new OrderedPair[][]{pos1, pos2, pos3,pos4};
+        return pos1;
     }
 }
 
@@ -136,7 +95,7 @@ class J extends Piece{
     }
 
     @Override
-    public OrderedPair[][] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrienations() {
         // Normal L
         OrderedPair[] pos1 = new OrderedPair[4];
         pos1[0] = new OrderedPair(1,0);
@@ -144,28 +103,7 @@ class J extends Piece{
         pos1[2] = new OrderedPair(1,2);
         pos1[3] = new OrderedPair(0,2);
 
-        // Rotated 90 degrees
-        OrderedPair[] pos2 = new OrderedPair[4];
-        pos2[0] = new OrderedPair(0,0);
-        pos2[1] = new OrderedPair(0,1);
-        pos2[2] = new OrderedPair(1,1);
-        pos2[3] = new OrderedPair(2,1);
-
-        // Rotate 180 degrees
-        OrderedPair[] pos3 = new OrderedPair[4];
-        pos3[0] = new OrderedPair(0,0);
-        pos3[1] = new OrderedPair(0,1);
-        pos3[2] = new OrderedPair(0,2);
-        pos3[3] = new OrderedPair(1,0);
-
-        // Rotate 270
-        OrderedPair[] pos4 = new OrderedPair[4];
-        pos3[0] = new OrderedPair(0,0);
-        pos3[1] = new OrderedPair(1,0);
-        pos3[2] = new OrderedPair(2,0);
-        pos3[3] = new OrderedPair(2,1);
-
-        return new OrderedPair[][]{pos1, pos2, pos3,pos4};
+        return pos1;
     }
 }
 class T extends Piece{
@@ -174,7 +112,7 @@ class T extends Piece{
     }
 
     @Override
-    public OrderedPair[][] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrienations() {
         // Normal L
         OrderedPair[] pos1 = new OrderedPair[4];
         pos1[0] = new OrderedPair(0,0);
@@ -182,27 +120,7 @@ class T extends Piece{
         pos1[2] = new OrderedPair(2,0);
         pos1[3] = new OrderedPair(1,1);
 
-        // Rotated 90 degrees
-        OrderedPair[] pos2 = new OrderedPair[4];
-        pos2[0] = new OrderedPair(1,0);
-        pos2[1] = new OrderedPair(1,1);
-        pos2[2] = new OrderedPair(1,2);
-        pos2[3] = new OrderedPair(0,1);
 
-        // Rotate 180 degrees
-        OrderedPair[] pos3 = new OrderedPair[4];
-        pos3[0] = new OrderedPair(1,0);
-        pos3[1] = new OrderedPair(0,1);
-        pos3[2] = new OrderedPair(1,1);
-        pos3[3] = new OrderedPair(2,1);
-
-        // Rotate 270
-        OrderedPair[] pos4 = new OrderedPair[4];
-        pos3[0] = new OrderedPair(0,0);
-        pos3[1] = new OrderedPair(0,1);
-        pos3[2] = new OrderedPair(0,2);
-        pos3[3] = new OrderedPair(1,1);
-
-        return new OrderedPair[][]{pos1, pos2, pos3,pos4};
+        return pos1;
     }
 }
