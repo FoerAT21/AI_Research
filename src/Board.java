@@ -1,4 +1,3 @@
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -26,13 +25,25 @@ public class Board {
         this.numColumns = numColumns;
     }
 
-    public void placePiece(OrderedPair[] orientation, OrderedPair startingPosition) throws IndexOutOfBoundsException {
+    /**
+     * Place specific OrderedPair[] representing one orientation for a piece onto the board.
+     * @param orientation OrderedPair[] representing the Piece and its' specific orientation
+     * @param startingPosition OrderedPair point on the Board where the top left corner of the Piece is being put.
+     * @throws IndexOutOfBoundsException Exception thrown if the Piece placement is outside the bounds of the Board.
+     * @throws IllegalArgumentException Exception thrown if the Piece placement conflicts with an already placed Piece.
+     */
+    public void placePiece(OrderedPair[] orientation, OrderedPair startingPosition) throws IndexOutOfBoundsException, IllegalArgumentException {
         for (OrderedPair pair : orientation) {
             int x = pair.getX() + startingPosition.getX();
             int y = pair.getY() + startingPosition.getY();
+
             if (x >= numRows || y >= numColumns) {
                 throw new IndexOutOfBoundsException("Index out of bounds for Board");
             }
+            if (board.get(x).get(y)) {
+                throw new IllegalArgumentException("Board already filled at this specific place");
+            }
+
             updateSpot(x, y, true);
         }
     }
