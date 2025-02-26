@@ -35,7 +35,7 @@ public class Board {
 
     /**
      * Place specific OrderedPair[] representing one orientation for a piece onto the board.
-     * @param orientation OrderedPair[] representing the Piece and its' specific orientation
+     * @param piece Piece representing the Piece to be placed on the board
      * @param startingPosition OrderedPair point on the Board where the top left corner of the Piece is being put.
      * @throws IndexOutOfBoundsException Exception thrown if the Piece placement is outside the bounds of the Board.
      * @throws IllegalArgumentException Exception thrown if the Piece placement conflicts with an already placed Piece.
