@@ -13,4 +13,12 @@ public class OrderedPair {
     public int getY() {
         return y;
     }
+
+    public boolean equals(OrderedPair other){
+        return other.x == this.x && other.y == this.y;
+    }
+
+    public String toString(){
+        return "("+y+","+x+")";
+    }
 }

@@ -30,7 +30,7 @@ public class Board {
     }
 
     public int getNumRows(){
-        return numColumns;
+        return numRows;
     }
 
     /**

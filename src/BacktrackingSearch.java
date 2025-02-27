@@ -7,20 +7,51 @@ public class BacktrackingSearch {
 
         int mrv = minimumRemainingValues(domains);
 
-        for(ArrayList<OrderedPair> domain : domains.domains.get(mrv)){
-            System.out.println(domain);
+        ArrayList<ArrayList<OrderedPair>> domain = domains.domains.get(mrv);
+        System.out.println(domain);
+        for(int j = 0; j < domain.size(); j++){
+            TetrisDomains newDomains = new TetrisDomains(domains);
+
+            ArrayList<ArrayList<OrderedPair>> temp = new ArrayList<>();
+            temp.add(domain.get(j));
+
+            newDomains.domains.set(mrv, temp);
+            forwardCheck(domain.get(j), mrv, newDomains);
+
+            TetrisDomains result = backtrack(newDomains);
+
+            if(result != null) return result;
         }
+
 
         return null;
     }
 
+    private static void forwardCheck(ArrayList<OrderedPair> value, int index,
+                                     TetrisDomains domains){
+        for(OrderedPair op: value){
+            for(int i = 0; i < domains.domains.size(); i++){
+                if(i == index) continue;
+                ArrayList<ArrayList<OrderedPair>> pieceDomain = domains.domains.get(i);
+                for(int j = 0; j < pieceDomain.size(); j++){
+                    ArrayList<OrderedPair> pos = pieceDomain.get(j);
+                    if(pos.contains(op)){
+                        pieceDomain.remove(pos);
+                        j--;
+                    }
+                }
+            }
+        }
+    }
+
     private static int minimumRemainingValues(TetrisDomains domains){
         int min_index = 0;
+
         for(int i = 1; i < domains.domains.size(); i++){
             ArrayList<ArrayList<OrderedPair>> min_domain = domains.domains.get(min_index);
             ArrayList<ArrayList<OrderedPair>> curr_domain = domains.domains.get(i);
 
-            if(min_domain.size() > curr_domain.size() && curr_domain.size() > 1)
+            if(min_domain.size() > curr_domain.size() || min_domain.size() == 1)
                 min_index = i;
         }
 

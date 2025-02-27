@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class TetrisDomains {
@@ -48,24 +49,27 @@ public class TetrisDomains {
                 ArrayList<OrderedPair> positions = new ArrayList<>();
                 boolean add = true;
                 for(OrderedPair op : piece.getPositions()){
-                    int r = op.getX()+row;
-                    int c = op.getY()+col;
-                    if(r >= numRows || c >= numCols) {
+                    int c = op.getX()+col;
+                    int r = op.getY()+row;
+
+                    if(r >= numRows || c >= numCols || r < 0 || c < 0) {
                         add = false;
                         break;
                     }
                     positions.add(new OrderedPair(r,c));
                 }
-                if(add) returnable.add(positions);
+                if(add) {
+                    returnable.add(positions);
+                }
             }
         }
         return returnable;
     }
 
     public boolean domainsAllSet(){
-        for(ArrayList<ArrayList<OrderedPair>> domain : this.domains)
-            if(domain.size() != 1) return false;
-
+        for(ArrayList<ArrayList<OrderedPair>> domain : this.domains) {
+            if (domain.size() != 1) return false;
+        }
         return true;
     }
 }
