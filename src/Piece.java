@@ -1,6 +1,6 @@
 public abstract class Piece {
     protected OrderedPair[] positions;
-    public abstract OrderedPair[] generatePieceOrienations();
+    public abstract OrderedPair[] generatePieceOrientations();
     public OrderedPair[] getPositions(){
         return positions;
     }
@@ -8,10 +8,10 @@ public abstract class Piece {
 
 class O extends Piece{
     public O(){
-        positions = generatePieceOrienations();
+        positions = generatePieceOrientations();
     }
     @Override
-    public OrderedPair[] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrientations() {
         OrderedPair[] pos = new OrderedPair[4];
         pos[0] = new OrderedPair(0,0);
         pos[1] = new OrderedPair(0,1);
@@ -23,10 +23,10 @@ class O extends Piece{
 
 class I extends Piece{
     public I(){
-        positions = generatePieceOrienations();
+        positions = generatePieceOrientations();
     }
     @Override
-    public OrderedPair[] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrientations() {
         OrderedPair[] pos1 = new OrderedPair[4];
         pos1[0] = new OrderedPair(0,0);
         pos1[1] = new OrderedPair(0,1);
@@ -39,27 +39,28 @@ class I extends Piece{
 
 class S extends Piece{
     public S(){
-        positions = generatePieceOrienations();
+        positions = generatePieceOrientations();
     }
 
     @Override
-    public OrderedPair[] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrientations() {
         OrderedPair[] pos1 = new OrderedPair[4];
-        pos1[0] = new OrderedPair(0,1);
-        pos1[1] = new OrderedPair(1,1);
-        pos1[2] = new OrderedPair(1,0);
-        pos1[3] = new OrderedPair(2,0);
+        pos1[0] = new OrderedPair(0,0);
+        pos1[1] = new OrderedPair(1,0);
+        pos1[2] = new OrderedPair(1,-1);
+        pos1[3] = new OrderedPair(2,-1);
+
         return pos1;
     }
 }
 
 class Z extends Piece{
     public Z(){
-        positions = generatePieceOrienations();
+        positions = generatePieceOrientations();
     }
 
     @Override
-    public OrderedPair[] generatePieceOrienations() {
+    public OrderedPair[] generatePieceOrientations() {
         OrderedPair[] positions = new OrderedPair[4];
         positions[0] = new OrderedPair(0,0);
         positions[1] = new OrderedPair(1,0);
@@ -73,12 +74,11 @@ class Z extends Piece{
 
 class L extends Piece{
     public L(){
-        positions = generatePieceOrienations();
+        positions = generatePieceOrientations();
     }
 
     @Override
-    public OrderedPair[] generatePieceOrienations() {
-        // Normal L
+    public OrderedPair[] generatePieceOrientations() {
         OrderedPair[] pos1 = new OrderedPair[4];
         pos1[0] = new OrderedPair(0,0);
         pos1[1] = new OrderedPair(0,1);
@@ -91,35 +91,32 @@ class L extends Piece{
 
 class J extends Piece{
     public J(){
-        positions = generatePieceOrienations();
+        positions = generatePieceOrientations();
     }
 
     @Override
-    public OrderedPair[] generatePieceOrienations() {
-        // Normal L
+    public OrderedPair[] generatePieceOrientations() {
         OrderedPair[] pos1 = new OrderedPair[4];
-        pos1[0] = new OrderedPair(1,0);
-        pos1[1] = new OrderedPair(1,1);
-        pos1[2] = new OrderedPair(1,2);
-        pos1[3] = new OrderedPair(0,2);
+        pos1[0] = new OrderedPair(0,0);
+        pos1[1] = new OrderedPair(0,1);
+        pos1[2] = new OrderedPair(0,2);
+        pos1[3] = new OrderedPair(-1,2);
 
         return pos1;
     }
 }
 class T extends Piece{
     public T(){
-        positions = generatePieceOrienations();
+        positions = generatePieceOrientations();
     }
 
     @Override
-    public OrderedPair[] generatePieceOrienations() {
-        // Normal L
+    public OrderedPair[] generatePieceOrientations() {
         OrderedPair[] pos1 = new OrderedPair[4];
         pos1[0] = new OrderedPair(0,0);
         pos1[1] = new OrderedPair(1,0);
         pos1[2] = new OrderedPair(2,0);
         pos1[3] = new OrderedPair(1,1);
-
 
         return pos1;
     }

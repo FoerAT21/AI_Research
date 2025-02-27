@@ -41,7 +41,7 @@ public class Board {
      * @throws IllegalArgumentException Exception thrown if the Piece placement conflicts with an already placed Piece.
      */
     public void placePieceOrderedPair(Piece piece, OrderedPair startingPosition) throws IndexOutOfBoundsException, IllegalArgumentException {
-        OrderedPair[] orientation = piece.generatePieceOrienations();
+        OrderedPair[] orientation = piece.generatePieceOrientations();
 
         for (OrderedPair pair : orientation) {
             int x = pair.getX() + startingPosition.getX();
