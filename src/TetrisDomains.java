@@ -9,11 +9,35 @@ public class TetrisDomains {
      */
 
     public ArrayList<ArrayList<ArrayList<OrderedPair>>> domains;
+
     public TetrisDomains(Board board, ArrayList<Piece> pieces){
         domains = new ArrayList<>();
         for(Piece piece : pieces){
-            domains.add(generateDomain(board.getNumRows(), board.getNumColumns(), piece));
+            domains.add(
+                generateDomain(board.getNumRows(), board.getNumColumns(), piece)
+            );
         }
+    }
+
+    public TetrisDomains(final TetrisDomains oldDomains){
+        this.domains = new ArrayList<>();
+
+        for (ArrayList<ArrayList<OrderedPair>> domain : oldDomains.domains) {
+            ArrayList<ArrayList<OrderedPair>> domainCopy = new ArrayList<>();
+
+            for (ArrayList<OrderedPair> list : domain) {
+                ArrayList<OrderedPair> listCopy = new ArrayList<>();
+
+                for (OrderedPair pair : list) {
+                    listCopy.add(new OrderedPair(pair.getX(), pair.getY())); // Assuming OrderedPair has x and y fields
+                }
+
+                domainCopy.add(listCopy);
+            }
+
+            this.domains.add(domainCopy);
+        }
+
     }
 
     private ArrayList<ArrayList<OrderedPair>> generateDomain(int numRows,
@@ -26,7 +50,7 @@ public class TetrisDomains {
                 for(OrderedPair op : piece.getPositions()){
                     int r = op.getX()+row;
                     int c = op.getY()+col;
-                    if(r >= numRows || c >= numRows) {
+                    if(r >= numRows || c >= numCols) {
                         add = false;
                         break;
                     }
