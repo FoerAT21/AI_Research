@@ -42,34 +42,27 @@ public class TetrisDomains {
     }
 
     private ArrayList<ArrayList<OrderedPair>> generateDomain(int numRows,
-                                                             int numCols, Piece piece){
+                                                             int numCols, Piece piece) {
         ArrayList<ArrayList<OrderedPair>> returnable = new ArrayList<>();
-        for(int row = 0; row < numRows; row++){
-            for(int col = 0; col < numCols; col++){
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
                 ArrayList<OrderedPair> positions = new ArrayList<>();
                 boolean add = true;
-                for(OrderedPair op : piece.getPositions()){
-                    int c = op.getX()+col;
-                    int r = op.getY()+row;
+                for (OrderedPair op : piece.getPositions()) {
+                    int c = op.getX() + col;
+                    int r = op.getY() + row;
 
-                    if(r >= numRows || c >= numCols || r < 0 || c < 0) {
+                    if (r >= numRows || c >= numCols || r < 0 || c < 0) {
                         add = false;
                         break;
                     }
-                    positions.add(new OrderedPair(r,c));
+                    positions.add(new OrderedPair(r, c));
                 }
-                if(add) {
+                if (add) {
                     returnable.add(positions);
                 }
             }
         }
         return returnable;
-    }
-
-    public boolean domainsAllSet(){
-        for(ArrayList<ArrayList<OrderedPair>> domain : this.domains) {
-            if (domain.size() != 1) return false;
-        }
-        return true;
     }
 }
