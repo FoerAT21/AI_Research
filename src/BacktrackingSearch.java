@@ -3,9 +3,8 @@ import java.util.ArrayList;
 public class BacktrackingSearch {
 
     public static TetrisDomains backtrack(final TetrisDomains domains){
-        if(domains.domainsAllSet()) return domains;
-
         int mrv = minimumRemainingValues(domains);
+        if(mrv == domains.domains.size()) return domains;
 
         ArrayList<ArrayList<OrderedPair>> domain = domains.domains.get(mrv);
         System.out.println(domain);
@@ -46,12 +45,17 @@ public class BacktrackingSearch {
 
     private static int minimumRemainingValues(TetrisDomains domains){
         int min_index = 0;
+        while(domains.domains.get(0).size() == 1 && min_index < domains.domains.size()){
+            min_index++;
+        }
+
+        if(min_index >= domains.domains.size()) return min_index;
 
         for(int i = 1; i < domains.domains.size(); i++){
             ArrayList<ArrayList<OrderedPair>> min_domain = domains.domains.get(min_index);
             ArrayList<ArrayList<OrderedPair>> curr_domain = domains.domains.get(i);
 
-            if(min_domain.size() > curr_domain.size() || min_domain.size() == 1)
+            if(min_domain.size() > curr_domain.size() && curr_domain.size() != 1)
                 min_index = i;
         }
 
