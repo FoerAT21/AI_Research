@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class TetrisDomains {
     /***
      * Outer array list is the list for all domains of all pieces
-     * Middle array list is the list of all possible positions for piece x
+     * Middle array list is the domain for piece x
      * Inner array list is going to be a length of 4 (location on the board where
      * piece can go
      */
@@ -64,5 +64,15 @@ public class TetrisDomains {
             }
         }
         return returnable;
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < domains.size(); i++){
+            ArrayList<ArrayList<OrderedPair>> domain = domains.get(i);
+            sb.append("Piece ").append(i + 1).append(" domain: ").append(domain).append("\n");
+        }
+
+        return sb.toString();
     }
 }

@@ -4,6 +4,9 @@ public abstract class Piece {
     public OrderedPair[] getPositions(){
         return positions;
     }
+    public String toString(){
+        return "Piece";
+    }
 }
 
 class O extends Piece{
@@ -18,6 +21,10 @@ class O extends Piece{
         pos[2] = new OrderedPair(1,0);
         pos[3] = new OrderedPair(1,1);
         return pos;
+    }
+
+    public String toString(){
+        return "O";
     }
 }
 
@@ -35,6 +42,9 @@ class I extends Piece{
 
         return pos1;
     }
+    public String toString(){
+        return "I";
+    }
 }
 
 class S extends Piece{
@@ -51,6 +61,10 @@ class S extends Piece{
         pos1[3] = new OrderedPair(2,-1);
 
         return pos1;
+    }
+
+    public String toString(){
+        return "S";
     }
 }
 
@@ -70,6 +84,10 @@ class Z extends Piece{
 
         return positions;
     }
+
+    public String toString(){
+        return "Z";
+    }
 }
 
 class L extends Piece{
@@ -86,6 +104,10 @@ class L extends Piece{
         pos1[3] = new OrderedPair(1,2);
 
         return pos1;
+    }
+
+    public String toString(){
+        return "L";
     }
 }
 
@@ -104,6 +126,10 @@ class J extends Piece{
 
         return pos1;
     }
+
+    public String toString(){
+        return "J";
+    }
 }
 class T extends Piece{
     public T(){
@@ -119,5 +145,9 @@ class T extends Piece{
         pos1[3] = new OrderedPair(1,1);
 
         return pos1;
+    }
+
+    public String toString(){
+        return "T";
     }
 }
