@@ -1,18 +1,20 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.HashMap;
 
 public class Main {
+    final static int NUM_ROWS = 10;
+    final static int NUM_COLS = 10;
+    final static int NUM_PIECES = (NUM_ROWS*NUM_COLS)/4;
+
     public static void main(String[] args) {
         ArrayList<Piece> pieces= new ArrayList<>();
         HashMap<String, Integer> pieceCount = new HashMap<>();
 
         Random rand = new Random();
-        final int NUM_ROWS = 4;
-        final int NUM_COLS = 4;
-        final int NUM_PIECES = (NUM_ROWS*NUM_COLS)/4;
 
-        for(int i = 0; i< NUM_PIECES; i++){
+        for(int i = 0; i < NUM_PIECES; i++){
             Piece piece = generatePiece(rand.nextInt(7));
             int count = pieceCount.getOrDefault(piece.toString(), 0) + 1;
             pieceCount.put(piece.toString(), count);
@@ -27,9 +29,9 @@ public class Main {
         });
 
 
-        Board board = new Board(4,4);
+        Board board = new Board(NUM_ROWS,NUM_COLS);
         TetrisDomains domains = new TetrisDomains(board, pieces);
-        TetrisDomains solution = BacktrackingSearch.backtrack(domains);
+        TetrisDomains solution = BacktrackingSearch.backtrack(domains, new HashSet<>());
 
         if(solution == null){
             System.out.println("Didn't work");

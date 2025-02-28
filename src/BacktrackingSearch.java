@@ -1,30 +1,38 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class BacktrackingSearch {
 
-    public static TetrisDomains backtrack(final TetrisDomains domains){
-        int mrv = minimumRemainingValues(domains);
+    public static TetrisDomains backtrack(final TetrisDomains domains, HashSet<Integer> piecesAdded){
+        int mrv = minimumRemainingValues(domains, piecesAdded);
 
         // If all domains are set
-        if(mrv == domains.domains.size()) return domains;
+        if(mrv == domains.domains.size()){
+            return domains;
+        }
 
         ArrayList<ArrayList<OrderedPair>> domain = domains.domains.get(mrv);
 
         for(int j = 0; j < domain.size(); j++){
             TetrisDomains newDomains = new TetrisDomains(domains);
 
+            // Getting the piece placement here
             ArrayList<ArrayList<OrderedPair>> temp = new ArrayList<>();
             temp.add(domain.get(j));
 
+            // We place the piece here
             newDomains.domains.set(mrv, temp);
+            piecesAdded.add(mrv);
             TetrisDomains result = null;
-            if(forwardCheck(domain.get(j), mrv, newDomains))
-                result = backtrack(newDomains);
+            if(forwardCheck(domain.get(j), mrv, newDomains)){
+                result = backtrack(newDomains, piecesAdded);
+            }
 
+            // If we successfully placed all pieces return the result
             if(result != null) return result;
+            else  piecesAdded.remove(mrv); // If it fails, we remove that piece that we placed
         }
-
 
         return null;
     }
@@ -38,9 +46,7 @@ public class BacktrackingSearch {
      */
     private static boolean forwardCheck(ArrayList<OrderedPair> value, int skip,
                                      TetrisDomains domains){
-        System.out.println("We placed: " + value);
         for(OrderedPair op: value){
-            System.out.println("We are checking if domains contain " + op);
             for(int i = 0; i < domains.domains.size(); i++){
                 if(i == skip) continue;
                 ArrayList<ArrayList<OrderedPair>> pieceDomain = domains.domains.get(i);
@@ -48,10 +54,8 @@ public class BacktrackingSearch {
                 Iterator<ArrayList<OrderedPair>> iter = pieceDomain.iterator();
                 while (iter.hasNext()) {
                     ArrayList<OrderedPair> pos = iter.next();
-                    System.out.println("We are checking domain element: " + pos);
                     for (OrderedPair checkPos : pos) {
                         if (checkPos.equals(op)) {
-                            System.out.println(pos + " contained " + op + " so we remove it");
                             iter.remove(); // Properly remove while iterating
                             break;
                         }
@@ -64,19 +68,19 @@ public class BacktrackingSearch {
         return true;
     }
 
-    private static int minimumRemainingValues(TetrisDomains domains){
+    private static int minimumRemainingValues(TetrisDomains domains, HashSet<Integer> piecesAdded){
         int min_index = 0;
-        while(min_index < domains.domains.size() && domains.domains.get(min_index).size() == 1){
+        while(min_index < domains.domains.size() &&  piecesAdded.contains(min_index)){
             min_index++;
         }
 
         if(min_index >= domains.domains.size()) return min_index;
 
-        for(int i = 1; i < domains.domains.size(); i++){
+        for(int i = min_index+1; i < domains.domains.size(); i++){
             ArrayList<ArrayList<OrderedPair>> min_domain = domains.domains.get(min_index);
             ArrayList<ArrayList<OrderedPair>> curr_domain = domains.domains.get(i);
 
-            if(min_domain.size() > curr_domain.size() && curr_domain.size() != 1)
+            if(min_domain.size() > curr_domain.size() && !piecesAdded.contains(i))
                 min_index = i;
         }
 
