@@ -3,7 +3,7 @@ import java.util.Collections;
 
 public class Board {
 
-    private ArrayList<ArrayList<Boolean>> board;
+    private final ArrayList<ArrayList<Boolean>> board;
     private final int numRows;
     private final int numColumns;
 
@@ -31,51 +31,6 @@ public class Board {
 
     public int getNumRows(){
         return numRows;
-    }
-
-    /**
-     * Place specific OrderedPair[] representing one orientation for a piece onto the board.
-     * @param piece Piece representing the Piece to be placed on the board
-     * @param startingPosition OrderedPair point on the Board where the top left corner of the Piece is being put.
-     * @throws IndexOutOfBoundsException Exception thrown if the Piece placement is outside the bounds of the Board.
-     * @throws IllegalArgumentException Exception thrown if the Piece placement conflicts with an already placed Piece.
-     */
-    public void placePieceOrderedPair(Piece piece, OrderedPair startingPosition) throws IndexOutOfBoundsException, IllegalArgumentException {
-        OrderedPair[] orientation = piece.generatePieceOrientations();
-
-        for (OrderedPair pair : orientation) {
-            int x = pair.getX() + startingPosition.getX();
-            int y = pair.getY() + startingPosition.getY();
-
-            if (x >= numRows || y >= numColumns) {
-                throw new IndexOutOfBoundsException("Index out of bounds for Board");
-            }
-            if (board.get(x).get(y)) {
-                throw new IllegalArgumentException("Board already filled at this specific place");
-            }
-
-            updateSpot(x, y, true);
-        }
-    }
-
-    private void updateSpot(int x, int y, boolean value) throws IndexOutOfBoundsException{
-        if (x >= numRows || y >= numColumns) {
-            throw new IndexOutOfBoundsException("Index out of bounds for Board");
-        }
-
-        this.board.get(x).set(y, value);
-    }
-
-    private int numEmptySpaces() {
-        int totalCount = 0;
-        for (int i = 0; i < numRows; i++){
-            for (int j = 0; j < numColumns; j++){
-                if (!this.board.get(i).get(j)){
-                    totalCount++;
-                }
-            }
-        }
-        return totalCount;
     }
 
     @Override
