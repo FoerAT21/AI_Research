@@ -4,29 +4,40 @@ import java.util.Iterator;
 
 public class BacktrackingSearch {
 
-    public static TetrisDomains backtrack(final TetrisDomains domains, HashSet<Integer> piecesAdded){
-        int mrv = minimumRemainingValues(domains, piecesAdded);
+    public static TetrisDomains backtrack(final TetrisDomains domains, HashSet<Integer> piecesAdded, int verbosity){
 
         // If all domains are set
-        if(mrv == domains.domains.size()){
+        if (piecesAdded.size() == domains.domains.size()){
+            System.out.printf("\nFinal Piece Domains: \n%s\n", domains);
             return domains;
         }
 
+        int mrv = minimumRemainingValues(domains, piecesAdded);
         ArrayList<ArrayList<OrderedPair>> domain = domains.domains.get(mrv);
 
-        for(int j = 0; j < domain.size(); j++){
+        for (ArrayList<OrderedPair> orderedPairs : domain) {
+            // Print out certain details based upon verbosity
+            if (verbosity >= 1) {
+                System.out.printf("Piece Number to be Assigned: %d\n", mrv);
+            }
+
+            if (verbosity >= 2) {
+                System.out.printf("Current Piece Domains: \n%s\n", domains);
+            }
+
             TetrisDomains newDomains = new TetrisDomains(domains);
 
             // Getting the piece placement here
             ArrayList<ArrayList<OrderedPair>> temp = new ArrayList<>();
-            temp.add(domain.get(j));
+            temp.add(orderedPairs);
 
             // We place the piece here
             newDomains.domains.set(mrv, temp);
             piecesAdded.add(mrv);
             TetrisDomains result = null;
-            if(forwardCheck(domain.get(j), mrv, newDomains)){
-                result = backtrack(newDomains, piecesAdded);
+
+            if (forwardCheck(orderedPairs, mrv, newDomains)) {
+                result = backtrack(newDomains, piecesAdded, verbosity);
             }
 
             // If we successfully placed all pieces return the result
@@ -44,8 +55,7 @@ public class BacktrackingSearch {
      * @param domains - the domains that we are removing from
      * @return false if there is a zero domain, true if there is not
      */
-    private static boolean forwardCheck(ArrayList<OrderedPair> value, int skip,
-                                     TetrisDomains domains){
+    private static boolean forwardCheck(ArrayList<OrderedPair> value, int skip, TetrisDomains domains){
         for(OrderedPair op: value){
             for(int i = 0; i < domains.domains.size(); i++){
                 if(i == skip) continue;
