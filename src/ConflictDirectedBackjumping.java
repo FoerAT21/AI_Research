@@ -12,12 +12,12 @@ public class ConflictDirectedBackjumping {
     }
 
     /**
-     *
-     * @param domains
-     * @param piecesAdded
-     * @param conflictSet
+     * An algorithm which performs Conflict Directed Back Jumping Search
+     * @param domains The TetrisDomains value, indicating all possible domains for each piece
+     * @param piecesAdded An ordered Set of Integers, indicating which pieces have been placed so far
+     * @param conflictSet A Map of each Piece, and the Pieces whose placements created a conflict.
      * @param verbosity Level of detail shown about the results of the algorithm. Verbosity 0 just prints the final result, Verbosity 1 additionally prints when trying to assign a variable, and Verbosity 2 additionally prints the domain of each variable as well
-     * @return
+     * @return A final TetrisDomains value if every variable has a domain, or null if there is not a solution
      */
     public TetrisDomains backtrack(final TetrisDomains domains, LinkedHashSet<Integer> piecesAdded, HashMap<Integer, LinkedHashSet<Integer>> conflictSet, int verbosity) {
 
@@ -36,6 +36,13 @@ public class ConflictDirectedBackjumping {
         int mrv = minimumRemainingValues(domains, piecesAdded);
         ArrayList<ArrayList<OrderedPair>> domain = domains.domains.get(mrv);
 
+        // Create a Deep Copy of the Conflict Set
+        HashMap<Integer, LinkedHashSet<Integer>> newConflictSet = new HashMap<>();
+
+        for (Map.Entry<Integer, LinkedHashSet<Integer>> entry : conflictSet.entrySet()) {
+            newConflictSet.put(entry.getKey(), new LinkedHashSet<>(entry.getValue()));
+        }
+
         for (ArrayList<OrderedPair> orderedPairs : domain) {
             // Print out certain details based upon verbosity
             if (verbosity >= 1) {
@@ -47,7 +54,6 @@ public class ConflictDirectedBackjumping {
             }
 
             TetrisDomains newDomains = new TetrisDomains(domains);
-            HashMap<Integer, LinkedHashSet<Integer>> newConflictSet = new HashMap<>(conflictSet);
 
             // Getting the piece placement here
             ArrayList<ArrayList<OrderedPair>> temp = new ArrayList<>();
@@ -58,7 +64,7 @@ public class ConflictDirectedBackjumping {
             piecesAdded.add(mrv);
             TetrisDomains result = null;
 
-            if (forwardCheck(orderedPairs, mrv, newDomains, newConflictSet, piecesAdded)) {
+            if (forwardCheck(orderedPairs, mrv, newDomains, newConflictSet)) {
                 result = backtrack(newDomains, piecesAdded, newConflictSet, verbosity);
             }
 
@@ -71,37 +77,24 @@ public class ConflictDirectedBackjumping {
         }
 
         this.backTrack = null;
-        // If every possible value for Xj fails, backjump to the most recent variable Xi in conf (Xj ), and set conf (Xi) ← conf (Xi) ∪ conf (Xj ) − {Xi}.
-        System.out.println(piecesAdded);
-        System.out.println(conflictSet);
+
+        // If every possible value for MRV fails, backjump to the most recent variable bjv in conf (MRV ), and set conf (bjv) ← conf (bjv) ∪ conf (MRV ) − {bjv}.
         LinkedHashSet<Integer> conflictVars = conflictSet.getOrDefault(mrv, new LinkedHashSet<>());
         if (conflictVars.isEmpty()) return null; // No valid backjump variable, terminate
 
         int backjumpVariable = new ArrayList<>(conflictVars).get(conflictVars.size() - 1);
 
         LinkedHashSet<Integer> backjumpVariableConflictSet = conflictSet.getOrDefault(backjumpVariable, new LinkedHashSet<>());
-        LinkedHashSet<Integer> assignmentConflictSet = conflictSet.getOrDefault(mrv, new LinkedHashSet<>());
 
-        assignmentConflictSet.remove(backjumpVariable);
-
-        for (Integer toAdd : assignmentConflictSet) {
-            if (piecesAdded.contains(toAdd)) {
-                backjumpVariableConflictSet.add(toAdd);
-            }
-        }
-
-        conflictSet.put(mrv, new LinkedHashSet<>());
-
-        System.out.printf("Assigned: %d; Back-jump: %d\n", mrv, backjumpVariable);
-        System.out.println(conflictSet);
-        System.out.println();
+        backjumpVariableConflictSet.addAll(conflictVars);
+        backjumpVariableConflictSet.remove(backjumpVariable);
 
         this.backTrack = backjumpVariable;
 
         return null;
     }
 
-    private static boolean forwardCheck(ArrayList<OrderedPair> value, int skip, TetrisDomains domains, HashMap<Integer, LinkedHashSet<Integer>> conflictSet, LinkedHashSet<Integer> piecesAdded) {
+    private static boolean forwardCheck(ArrayList<OrderedPair> value, int skip, TetrisDomains domains, HashMap<Integer, LinkedHashSet<Integer>> conflictSet) {
         boolean consistent = true;
 
         for (OrderedPair coordinate: value) {
@@ -114,12 +107,11 @@ public class ConflictDirectedBackjumping {
                     ArrayList<OrderedPair> pos = iter.next();
                     for (OrderedPair checkPos : pos) {
                         if (checkPos.equals(coordinate)) {
-                            // only add to conflict set if it's one of the pieces added so far
-                            if (piecesAdded.contains(skip) && piecesAdded.getLast() != skip) {
-                                LinkedHashSet<Integer> currentSet = conflictSet.getOrDefault(i, new LinkedHashSet<>());
-                                currentSet.add(skip);
-                                conflictSet.put(i, currentSet);
-                            }
+                            // whenever forward checking based on an assignment to skip deletes a value from i’s domain, it should add skip to i’s conflict set
+                            LinkedHashSet<Integer> conflictSetI = conflictSet.getOrDefault(i, new LinkedHashSet<>());
+                            conflictSetI.add(skip);
+                            conflictSet.put(i, conflictSetI);
+
                             iter.remove(); // Properly remove while iterating
                             break;
                         }
@@ -127,17 +119,12 @@ public class ConflictDirectedBackjumping {
                 }
 
                 if (pieceDomain.isEmpty()) {
-                    // Also, every time the last value is deleted from Y ’s domain, the variables in the conflict set of Y are added to the conflict set of X.
-                    LinkedHashSet<Integer> checkSet = conflictSet.getOrDefault(i, new LinkedHashSet<>());
-                    LinkedHashSet<Integer> assignmentSet = conflictSet.getOrDefault(skip, new LinkedHashSet<>());
+                    // Also, every time the last value is deleted from i’s domain, the variables in the conflict set of i are added to the conflict set of skip.
+                    LinkedHashSet<Integer> conflictSetI = conflictSet.getOrDefault(i, new LinkedHashSet<>());
+                    LinkedHashSet<Integer> conflictSetSkip = conflictSet.getOrDefault(skip, new LinkedHashSet<>());
+                    conflictSetSkip.addAll(conflictSetI);
+                    conflictSet.put(skip, conflictSetSkip);
 
-                    for (Integer toAdd : checkSet){
-                        if (piecesAdded.contains(toAdd) && !Objects.equals(piecesAdded.getLast(), toAdd)){
-                            assignmentSet.add(toAdd);
-                        }
-                    }
-                    assignmentSet.remove(skip);
-                    conflictSet.put(skip, assignmentSet);
                     consistent = false;
                 }
             }
