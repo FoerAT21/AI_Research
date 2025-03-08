@@ -27,10 +27,15 @@ public class ConflictDirectedBackjumping {
             return domains;
         }
 
+//        System.out.printf("Pieces: %s; Backtrack %d\n", piecesAdded, this.backTrack);
+
         // If we have a variable to backtrack to, return null if this particular step has not reached the backtracking variable yet
         // Basically, we are going to ignore this particular stack call if we have a backtracking variable and still have not backtracked to it yet.
         if (this.backTrack != null && !Objects.equals(piecesAdded.getLast(), this.backTrack)) {
             return null;
+        } else if (this.backTrack != null && Objects.equals(piecesAdded.getLast(), this.backTrack)) {
+            // Reset the backtracking variable if we've backtracked to the right spot
+            this.backTrack = null;
         }
 
         int mrv = minimumRemainingValues(domains, piecesAdded);
@@ -38,9 +43,8 @@ public class ConflictDirectedBackjumping {
 
         // Create a Deep Copy of the Conflict Set
         HashMap<Integer, LinkedHashSet<Integer>> newConflictSet = new HashMap<>();
-
         for (Map.Entry<Integer, LinkedHashSet<Integer>> entry : conflictSet.entrySet()) {
-            newConflictSet.put(entry.getKey(), new LinkedHashSet<>(entry.getValue()));
+            newConflictSet.put(entry.getKey(), new LinkedHashSet<>(entry.getValue())); // Proper deep copy
         }
 
         for (ArrayList<OrderedPair> orderedPairs : domain) {
@@ -69,10 +73,7 @@ public class ConflictDirectedBackjumping {
             }
 
             // If we successfully placed all pieces return the result
-            if(result != null) {
-                this.backTrack = null;
-                return result;
-            }
+            if(result != null) return result;
             else piecesAdded.remove(mrv); // If it fails, we remove that piece that we placed
         }
 

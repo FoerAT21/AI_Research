@@ -2,14 +2,15 @@ import java.util.*;
 
 public class Main {
     final static int NUM_ROWS = 7;
-    final static int NUM_COLS = 7;
-    final static int NUM_PIECES = (NUM_ROWS*NUM_COLS)/5;
+    final static int NUM_COLS = 5;
     final static int NUM_EXPERIMENT_ITERATIONS = 5;
     final static int VERBOSITY = 0;
+    final static int NUM_PIECES = (NUM_ROWS*NUM_COLS)/4;
 
     public static void main(String[] args) {
 
         // Run the experiments with Backtracking Search
+        System.out.println("BACKTRACKING SEARCH");
         int numSolutionsFoundBacktracking = 0;
         long[] solutionTimeBacktracking = new long[NUM_EXPERIMENT_ITERATIONS];
 
@@ -25,12 +26,15 @@ public class Main {
 
             if (solution != null) {
                 numSolutionsFoundBacktracking++;
+            } else {
+                System.out.printf("No solution found for iteration %d\n", i);
             }
         }
 
         printEvaluationMetrics(numSolutionsFoundBacktracking, solutionTimeBacktracking);
 
         // The same, just with Conflict Directed Backjumping
+        System.out.println("\nCONFLICT DIRECTED BACKJUMPING");
         int numSolutionsFoundConflictDirectedBackjumping = 0;
         long[] solutionTimeConflictDirectedBackjumping = new long[NUM_EXPERIMENT_ITERATIONS];
 
@@ -47,15 +51,17 @@ public class Main {
 
             if (solution != null) {
                 numSolutionsFoundConflictDirectedBackjumping++;
+            } else {
+                System.out.printf("No solution found for iteration %d\n", i);
             }
         }
 
         printEvaluationMetrics(numSolutionsFoundConflictDirectedBackjumping, solutionTimeConflictDirectedBackjumping);
     }
 
-    private static void printEvaluationMetrics (int solutionsFound, long[] backtrackingTimes) {
-        float percentOfSolutions = (float) (solutionsFound /NUM_EXPERIMENT_ITERATIONS)*100;
-        System.out.printf("Percentage of solutions found: %.2f\n", percentOfSolutions);
+    private static void printEvaluationMetrics (float solutionsFound, long[] backtrackingTimes) {
+        float percentOfSolutions = (solutionsFound/NUM_EXPERIMENT_ITERATIONS)*100;
+        System.out.printf("Percentage of solutions found: %.2f%%\n", percentOfSolutions);
 
         long totalTime = 0;
         for (int i = 0; i < backtrackingTimes.length; i++) {
