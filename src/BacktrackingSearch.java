@@ -8,7 +8,9 @@ public class BacktrackingSearch {
 
         // If all domains are set
         if (piecesAdded.size() == domains.domains.size()){
-            System.out.printf("\nFinal Piece Domains: \n%s\n", domains);
+            if (verbosity >= 0) {
+                System.out.printf("\nFinal Piece Domains: \n%s\n", domains);
+            }
             return domains;
         }
 

@@ -16,14 +16,16 @@ public class ConflictDirectedBackjumping {
      * @param domains The TetrisDomains value, indicating all possible domains for each piece
      * @param piecesAdded An ordered Set of Integers, indicating which pieces have been placed so far
      * @param conflictSet A Map of each Piece, and the Pieces whose placements created a conflict.
-     * @param verbosity Level of detail shown about the results of the algorithm. Verbosity 0 just prints the final result, Verbosity 1 additionally prints when trying to assign a variable, and Verbosity 2 additionally prints the domain of each variable as well
+     * @param verbosity Level of detail shown about the results of the algorithm. Verbosity -1 does not print anything, Verbosity 0 just prints the final result, Verbosity 1 additionally prints when trying to assign a variable, and Verbosity 2 additionally prints the domain of each variable as well
      * @return A final TetrisDomains value if every variable has a domain, or null if there is not a solution
      */
     public TetrisDomains backtrack(final TetrisDomains domains, LinkedHashSet<Integer> piecesAdded, HashMap<Integer, LinkedHashSet<Integer>> conflictSet, int verbosity) {
 
         // If all pieces are placed, return the solution
         if (piecesAdded.size() == domains.domains.size()){
-            System.out.printf("\nFinal Piece Domains: \n%s\n", domains);
+            if (verbosity >= 0) {
+                System.out.printf("\nFinal Piece Domains: \n%s\n", domains);
+            }
             return domains;
         }
 
