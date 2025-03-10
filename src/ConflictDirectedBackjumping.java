@@ -40,6 +40,7 @@ public class ConflictDirectedBackjumping {
             this.backTrack = null;
         }
 
+        // Select a value to place a piece next for
         int mrv = minimumRemainingValues(domains, piecesAdded);
         ArrayList<ArrayList<OrderedPair>> domain = domains.domains.get(mrv);
 
@@ -59,6 +60,7 @@ public class ConflictDirectedBackjumping {
                 System.out.printf("Current Piece Domains: \n%s\n", domains);
             }
 
+            // Make a deep copy of the Tetris Domains object
             TetrisDomains newDomains = new TetrisDomains(domains);
 
             // Getting the piece placement here
@@ -70,6 +72,7 @@ public class ConflictDirectedBackjumping {
             piecesAdded.add(mrv);
             TetrisDomains result = null;
 
+            // Forward Checking includes making updates to the Conflict Set, which are detailed in that method
             if (forwardCheck(orderedPairs, mrv, newDomains, newConflictSet)) {
                 result = backtrack(newDomains, piecesAdded, newConflictSet, verbosity);
             }
@@ -81,17 +84,19 @@ public class ConflictDirectedBackjumping {
 
         this.backTrack = null;
 
-        // If every possible value for MRV fails, backjump to the most recent variable bjv in conf (MRV ), and set conf (bjv) ← conf (bjv) ∪ conf (MRV) − {bjv}.
+        // If every possible value for MRV fails, backjump to the most recent variable bjv in conf (MRV)
         LinkedHashSet<Integer> conflictVars = conflictSet.getOrDefault(mrv, new LinkedHashSet<>());
         if (conflictVars.isEmpty()) return null; // No valid backjump variable, terminate
 
         int backjumpVariable = new ArrayList<>(conflictVars).get(conflictVars.size() - 1);
 
+        // Update the Conflict Set: Set conf (bjv) equal to conf (bjv) unioned with conf (MRV) − {bjv}.
         LinkedHashSet<Integer> backjumpVariableConflictSet = conflictSet.getOrDefault(backjumpVariable, new LinkedHashSet<>());
 
         backjumpVariableConflictSet.addAll(conflictVars);
         backjumpVariableConflictSet.remove(backjumpVariable);
 
+        // Set Global backjump variable here
         this.backTrack = backjumpVariable;
 
         return null;
