@@ -97,6 +97,14 @@ public class ConflictDirectedBackjumping {
         return null;
     }
 
+    /**
+     * Forward checks to see if there are any Pieces where we fully delete the domain of that pieces
+     * @param value Coordinate Set for the place that we placed
+     * @param skip The integer value of the Piece we placed
+     * @param domains The current domain of each piece
+     * @param conflictSet The current Conflict Set for the problem
+     * @return A boolean indicating if any Piece's domain was fully removed or not
+     */
     private static boolean forwardCheck(ArrayList<OrderedPair> value, int skip, TetrisDomains domains, HashMap<Integer, LinkedHashSet<Integer>> conflictSet) {
         boolean consistent = true;
 
@@ -135,6 +143,12 @@ public class ConflictDirectedBackjumping {
         return consistent;
     }
 
+    /**
+     * Finds the Minimum Remaining Value in the Tetris Domains.
+     * @param domains Domain of each piece to be added
+     * @param piecesAdded List of all pieces already added
+     * @return An integer of which piece to add next
+     */
     public static int minimumRemainingValues(TetrisDomains domains, LinkedHashSet<Integer> piecesAdded) {
         int min_index = 0;
         while (min_index < domains.domains.size() && piecesAdded.contains(min_index)) {
