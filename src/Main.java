@@ -1,23 +1,28 @@
 import java.util.*;
 
 public class Main {
-    final static int NUM_ROWS = 8;
+    final static int NUM_ROWS = 7;
     final static int NUM_COLS = 6;
     final static int NUM_EXPERIMENT_ITERATIONS = 100;
     final static int VERBOSITY = -1;
     final static int NUM_PIECES = ((NUM_ROWS*NUM_COLS)/4) - 1;
 
     public static void main(String[] args) {
+        Board board = new Board(NUM_ROWS,NUM_COLS);
+        ArrayList<ArrayList<Piece>> problemInstances = new ArrayList<>();
+        for (int i = 0; i < NUM_EXPERIMENT_ITERATIONS; i++){
+            ArrayList<Piece> pieces = generatePieces();
+            problemInstances.add(pieces);
+        }
 
         // Run the experiments with Backtracking Search
         System.out.println("BACKTRACKING SEARCH");
         int numSolutionsFoundBacktracking = 0;
         long[] solutionTimeBacktracking = new long[NUM_EXPERIMENT_ITERATIONS];
 
+
         for (int i = 0; i < NUM_EXPERIMENT_ITERATIONS; i++) {
-            ArrayList<Piece> pieces = generatePieces();
-            Board board = new Board(NUM_ROWS,NUM_COLS);
-            TetrisDomains domains = new TetrisDomains(board, pieces);
+            TetrisDomains domains = new TetrisDomains(board, problemInstances.get(i));
 
             long startTime = System.nanoTime();
             TetrisDomains solution = BacktrackingSearch.backtrack(domains, new HashSet<>(), VERBOSITY);
@@ -39,9 +44,7 @@ public class Main {
         long[] solutionTimeConflictDirectedBackjumping = new long[NUM_EXPERIMENT_ITERATIONS];
 
         for (int i = 0; i < NUM_EXPERIMENT_ITERATIONS; i++) {
-            ArrayList<Piece> pieces = generatePieces();
-            Board board = new Board(NUM_ROWS,NUM_COLS);
-            TetrisDomains domains = new TetrisDomains(board, pieces);
+            TetrisDomains domains = new TetrisDomains(board, problemInstances.get(i));
             ConflictDirectedBackjumping cbj = new ConflictDirectedBackjumping(null);
 
             long startTime = System.nanoTime();
