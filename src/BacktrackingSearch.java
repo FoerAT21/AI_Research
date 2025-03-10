@@ -1,5 +1,5 @@
 /**
- * @author Andrew Foerest
+ * @author Andrew Foerst
  */
 import java.util.ArrayList;
 import java.util.HashSet;

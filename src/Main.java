@@ -1,5 +1,5 @@
 /**
- * @author Stevie Michalik and Andrew Foerest
+ * @author Stevie Michalik and Andrew Foerst
  */
 import java.util.*;
 
