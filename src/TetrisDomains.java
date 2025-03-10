@@ -43,6 +43,14 @@ public class TetrisDomains {
 
     }
 
+    /**
+     * This is effectively AC-3. Creates domains of the pieces that are consistent
+     * with each other and the problem itself
+     * @param numRows - number of rows to generate rows
+     * @param numCols - number of columns to generate domains
+     * @param piece - the piece that we are generating domains for
+     * @return a list of lists of ordered pairs for each piece
+     */
     private ArrayList<ArrayList<OrderedPair>> generateDomain(int numRows,
                                                              int numCols, Piece piece) {
         ArrayList<ArrayList<OrderedPair>> returnable = new ArrayList<>();
