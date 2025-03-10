@@ -1,9 +1,12 @@
+/**
+ * @author Stevie Michalik and Andrew Foerest
+ */
 import java.util.*;
 
 public class Main {
-    final static int NUM_ROWS = 7;
-    final static int NUM_COLS = 6;
-    final static int NUM_EXPERIMENT_ITERATIONS = 100;
+    final static int NUM_ROWS = 6;
+    final static int NUM_COLS = 8;
+    final static int NUM_EXPERIMENT_ITERATIONS = 1000;
     final static int VERBOSITY = -1;
     final static int NUM_PIECES = ((NUM_ROWS*NUM_COLS)/4) - 1;
 

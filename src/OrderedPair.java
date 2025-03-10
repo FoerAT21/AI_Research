@@ -1,3 +1,6 @@
+/**
+ * @author Andrew Foerst
+ */
 public class OrderedPair {
     private int x;
     private int y;

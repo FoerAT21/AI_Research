@@ -1,4 +1,6 @@
-import java.sql.SQLOutput;
+/**
+ * @author Andrew Foerst
+ */
 import java.util.ArrayList;
 
 public class TetrisDomains {

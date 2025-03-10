@@ -1,3 +1,6 @@
+/**
+ * @author Andrew Foerest
+ */
 public abstract class Piece {
     protected OrderedPair[] positions;
     public abstract OrderedPair[] generatePieceOrientations();

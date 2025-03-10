@@ -1,8 +1,10 @@
+/**
+ * @author Stevie Michalik
+ */
 import java.util.*;
 
-// http://aima.cs.berkeley.edu/newchap05.pdf
-// https://cse.unl.edu/~choueiry/Documents/Hybrid-Prosser.pdf
-// https://cs.stackexchange.com/questions/119343/need-recursive-version-of-conflict-based-backjumping
+// Ultimately used the following article to help create the algorithm: http://aima.cs.berkeley.edu/newchap05.pdf
+// Primarily used Section entitled "Intelligent backtracking: looking backward" to guide the creation of this algorithm
 public class ConflictDirectedBackjumping {
 
     private Integer backTrack;
@@ -28,8 +30,6 @@ public class ConflictDirectedBackjumping {
             }
             return domains;
         }
-
-//        System.out.printf("Pieces: %s; Backtrack %d\n", piecesAdded, this.backTrack);
 
         // If we have a variable to backtrack to, return null if this particular step has not reached the backtracking variable yet
         // Basically, we are going to ignore this particular stack call if we have a backtracking variable and still have not backtracked to it yet.
@@ -81,7 +81,7 @@ public class ConflictDirectedBackjumping {
 
         this.backTrack = null;
 
-        // If every possible value for MRV fails, backjump to the most recent variable bjv in conf (MRV ), and set conf (bjv) ← conf (bjv) ∪ conf (MRV ) − {bjv}.
+        // If every possible value for MRV fails, backjump to the most recent variable bjv in conf (MRV ), and set conf (bjv) ← conf (bjv) ∪ conf (MRV) − {bjv}.
         LinkedHashSet<Integer> conflictVars = conflictSet.getOrDefault(mrv, new LinkedHashSet<>());
         if (conflictVars.isEmpty()) return null; // No valid backjump variable, terminate
 

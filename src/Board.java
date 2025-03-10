@@ -1,3 +1,6 @@
+/**
+ * @author Stevie Michalik
+ */
 import java.util.ArrayList;
 import java.util.Collections;
 
